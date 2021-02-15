@@ -22,5 +22,6 @@ public class ObstacleMovement : MonoBehaviour
 
         myRigidbody.MovePosition(transform.position + Vector3.down * speed * Time.deltaTime);
 
+
     }
 }

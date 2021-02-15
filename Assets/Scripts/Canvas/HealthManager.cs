@@ -12,6 +12,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private int CurrentHP;
     [SerializeField] private PlayerStats stats;
     public static event Action playerHasDied;
+    public static event Action raiseShield;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +23,8 @@ public class HealthManager : MonoBehaviour
         CurrentHP = MaxHP;
 
         CollisionHandler.PlayerWasHit += ReduceHealth;
+        HealPowerUp.pickedupHeal += IncreaseHealth;
+
     }
 
     void InitHealth()
@@ -62,7 +65,20 @@ public class HealthManager : MonoBehaviour
     void IncreaseHealth()
     {
 
+        if(CurrentHP < MaxHP)
+        {
 
+            CurrentHP++;
+            InitHealth();
+
+        }
+
+        else
+        {
+
+            raiseShield?.Invoke();
+
+        }
 
     }
 

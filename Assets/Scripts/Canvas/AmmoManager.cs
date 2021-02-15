@@ -7,23 +7,30 @@ using UnityEngine.UI;
 public class AmmoManager : MonoBehaviour
 {
 
-    public Image[] AmmoSprites;
+    public Image AmmoSprites;
+    public GameObject[] ammoHolder;
+    public GameObject ammoParent;
+    public Vector2 parentDefault;
     public static event Action outOfAmmo;
     [SerializeField] private int UsableAmmo;
     [SerializeField] private int MaxAmmo;
-    [SerializeField] private PlayerStats stats;
+    public PlayerStats stats;
 
     // Start is called before the first frame update
     void Start()
-    {
+    { 
 
         UsableAmmo = stats.maxAmmo;
         MaxAmmo = stats.maxAmmo;
+        RectTransform ammoRect = ammoParent.GetComponent<RectTransform>();
+
+        parentDefault = ammoRect.localPosition;
 
         InitAmmo();
 
         PlayerShoot.PlayerHasShot += DecreaseAmmoCount;
         ProjectileMovement.projectileDestroyed += IncreaseAmmoCount;
+        PlayerStats.ammoHasIncreased += SyncAmmo;
 
     }
 
@@ -31,17 +38,23 @@ public class AmmoManager : MonoBehaviour
     void InitAmmo()
     {
 
-        for(int i = 0; i < MaxAmmo; i++)
+        RectTransform ammoRect = ammoParent.GetComponent<RectTransform>();
+
+        ammoRect.localPosition = parentDefault;
+
+        for (int i = 0; i < ammoHolder.Length; i++)
         {
 
-            AmmoSprites[i].gameObject.SetActive(false);
+            ammoHolder[i].gameObject.SetActive(false);
 
         }
 
         for(int i = 0; i < UsableAmmo; i++)
         {
 
-            AmmoSprites[i].gameObject.SetActive(true);
+            ammoHolder[i].gameObject.SetActive(true);
+            ammoRect.localPosition = new Vector2(ammoRect.localPosition.x - 108, ammoRect.localPosition.y);
+
 
         }
 
@@ -75,4 +88,13 @@ public class AmmoManager : MonoBehaviour
         }
 
     }
+
+    void SyncAmmo()
+    {
+
+        MaxAmmo = FindObjectOfType<PlayerStats>().maxAmmo;
+        IncreaseAmmoCount();
+
+    }
+
 }
