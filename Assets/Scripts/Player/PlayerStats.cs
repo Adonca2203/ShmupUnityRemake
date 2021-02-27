@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState
+{
+
+    normal,
+    dash,
+    hurt
+
+}
+
 public class PlayerStats : MonoBehaviour
 {
 
@@ -10,11 +19,13 @@ public class PlayerStats : MonoBehaviour
     public int maxAmmo = 5;
     public int maxFuel = 4;
     public static event Action ammoHasIncreased;
+    public PlayerState currentState;
 
     private void Start()
     {
 
         IncreaseMaxAmmo.IncreaseAmmoMax += IncreaseAmmo;
+        currentState = PlayerState.normal;
 
     }
 
@@ -26,6 +37,18 @@ public class PlayerStats : MonoBehaviour
 
             maxAmmo++;
             ammoHasIncreased?.Invoke();
+
+        }
+
+    }
+
+    public void ChangeState(PlayerState newState)
+    {
+
+        if (currentState != newState)
+        {
+
+            currentState = newState;
 
         }
 

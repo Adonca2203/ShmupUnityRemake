@@ -19,7 +19,7 @@ public class FuelManager : MonoBehaviour
         currentFuel = maxFuel;
         fuelBar = GetComponent<Slider>();
         fuelBar.value = 1;
-        PlayerMovement.hasInputDash += DecreaseFuel;
+        Dash.hasInputDash += DecreaseFuel;
 
     }
 

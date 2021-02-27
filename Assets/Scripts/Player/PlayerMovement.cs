@@ -8,17 +8,16 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float speed;
     [SerializeField] private Rigidbody2D myRigidbody;
-    public float dashSpeed;
-    public float dashTime;
+    [SerializeField] private PlayerStats stats;
     private int HORIZONTAL_BORDER = 8;
     private int VERTICAL_BORDER = 4;
-    public static event Action hasInputDash;
 
     // Start is called before the first frame update
     void Start()
     {
 
         myRigidbody = GetComponent<Rigidbody2D>();
+        stats = GetComponent<PlayerStats>();
 
     }
 
@@ -36,15 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
         change.Normalize();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-
-            DashIn(change);
-            return;
-
-        }
-
-        if (change != Vector3.zero)
+        if (change != Vector3.zero && stats.currentState != PlayerState.dash)
         {
 
             myRigidbody.MovePosition(transform.position + change * speed * Time.deltaTime);
@@ -77,24 +68,6 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-
-    }
-
-    void DashIn(Vector2 direction)
-    {
-
-        myRigidbody.AddForce(direction * dashSpeed, ForceMode2D.Impulse);
-        hasInputDash?.Invoke();
-        StartCoroutine(DashCo());
-
-    }
-
-    IEnumerator DashCo()
-    {
-
-        yield return new WaitForSeconds(dashTime);
-        myRigidbody.velocity = Vector2.zero;
-
 
     }
 
