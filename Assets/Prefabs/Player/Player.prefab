@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 145287498}
   - component: {fileID: 145287499}
   - component: {fileID: 145287500}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 1217437313}
   - component: {fileID: 5586106080595191733}
   - component: {fileID: 1057817850}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ Rigidbody2D:
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &-5474483666614226271
@@ -280,7 +280,6 @@ MonoBehaviour:
   projectilePreFab: {fileID: 7412637500371412009, guid: efca0c826a725014eb1877ac1b1d9a1e,
     type: 3}
   offset: {x: 0, y: 0.7, z: 0}
-  stats: {fileID: 5586106080595191733}
 --- !u!114 &5586106080595191733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,10 +292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9d2ec72a1635f4b8c4d5c92f3bc0de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  maxAmmo: 5
-  maxFuel: 4
-  currentState: 0
 --- !u!114 &1057817850
 MonoBehaviour:
   m_ObjectHideFlags: 0

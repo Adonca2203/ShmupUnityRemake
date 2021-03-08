@@ -14,14 +14,13 @@ public class AmmoManager : MonoBehaviour
     public static event Action outOfAmmo;
     [SerializeField] private int UsableAmmo;
     [SerializeField] private int MaxAmmo;
-    public PlayerStats stats;
 
     // Start is called before the first frame update
     void Start()
     { 
 
-        UsableAmmo = stats.maxAmmo;
-        MaxAmmo = stats.maxAmmo;
+        UsableAmmo = PlayerStats.maxAmmo;
+        MaxAmmo = PlayerStats.maxAmmo;
         RectTransform ammoRect = ammoParent.GetComponent<RectTransform>();
 
         parentDefault = ammoRect.localPosition;
@@ -92,7 +91,7 @@ public class AmmoManager : MonoBehaviour
     void SyncAmmo()
     {
 
-        MaxAmmo = FindObjectOfType<PlayerStats>().maxAmmo;
+        MaxAmmo = PlayerStats.maxAmmo;
         IncreaseAmmoCount();
 
     }

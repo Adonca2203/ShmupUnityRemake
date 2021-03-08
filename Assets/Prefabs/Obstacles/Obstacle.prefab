@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 805819166690901565}
   - component: {fileID: -1311105635715901955}
   - component: {fileID: -6904434301161043181}
-  - component: {fileID: -5608583191458361960}
-  m_Layer: 0
+  - component: {fileID: 8455755325845342533}
+  m_Layer: 10
   m_Name: Obstacle
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &-5608583191458361960
+--- !u!114 &8455755325845342533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,6 +145,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 805819166690901560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 409668407db8ff24499c0f5c15b529dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f8e4f89f5ae6724eb3cd9adae0b38d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

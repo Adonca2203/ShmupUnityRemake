@@ -10,7 +10,6 @@ public class HealthManager : MonoBehaviour
     public Image[] healthSprites;
     [SerializeField] private int MaxHP;
     [SerializeField] private int CurrentHP;
-    [SerializeField] private PlayerStats stats;
     public static event Action playerHasDied;
     public static event Action raiseShield;
 
@@ -19,10 +18,9 @@ public class HealthManager : MonoBehaviour
     {
 
         InitHealth();
-        MaxHP = stats.maxHealth;
+        MaxHP = PlayerStats.maxHealth;
         CurrentHP = MaxHP;
-
-        CollisionHandler.PlayerWasHit += ReduceHealth;
+        EnemyCollisionHandler.PlayerWasHit += ReduceHealth;
         HealPowerUp.pickedupHeal += IncreaseHealth;
 
     }

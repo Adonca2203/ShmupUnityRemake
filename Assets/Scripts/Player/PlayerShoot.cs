@@ -8,7 +8,6 @@ public class PlayerShoot : MonoBehaviour
 
     [SerializeField] GameObject projectilePreFab;
     [SerializeField] private Vector3 offset;
-    [SerializeField] private PlayerStats stats;
     private int usableProjectileCnt = 5;
     private int maxAmmoCount = 5;
     public static event Action PlayerHasShot;
@@ -18,8 +17,8 @@ public class PlayerShoot : MonoBehaviour
     {
 
         ProjectileMovement.projectileDestroyed += ReloadABullet;
-        usableProjectileCnt = stats.maxAmmo;
-        maxAmmoCount = stats.maxAmmo;
+        usableProjectileCnt = PlayerStats.maxAmmo;
+        maxAmmoCount = PlayerStats.maxAmmo;
 
     }
 

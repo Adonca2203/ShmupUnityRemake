@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     {
 
         myRigidbody = GetComponent<Rigidbody2D>();
-        stats = GetComponent<PlayerStats>();
 
     }
 
@@ -35,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
         change.Normalize();
 
-        if (change != Vector3.zero && stats.currentState != PlayerState.dash)
+        if (change != Vector3.zero && PlayerStats.currentState != PlayerState.dash)
         {
 
             myRigidbody.MovePosition(transform.position + change * speed * Time.deltaTime);

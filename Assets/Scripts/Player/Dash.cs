@@ -12,9 +12,7 @@ public class Dash : MonoBehaviour
     public static event Action hasInputDash;
     [SerializeField] private Rigidbody2D myRigidbody;
     [SerializeField] private PlayerStats stat;
-    private int leftTapCnt = 0;
-    private int rightTapCnt = 0;
-    private float buttonResetTime = .2f;
+    private float buttonResetTime = .1f;
     private bool listenForAUp = false;
     private bool listenForDUp = false;
     private float lastLeftRelease;
@@ -33,7 +31,7 @@ public class Dash : MonoBehaviour
     void Update()
     {
 
-        if(stat.currentState != PlayerState.dash)
+        if(PlayerStats.currentState != PlayerState.dash && PlayerStats.canDash)
         {
 
             if (Input.GetKeyDown(KeyCode.A))

@@ -15,11 +15,12 @@ public enum PlayerState
 public class PlayerStats : MonoBehaviour
 {
 
-    public int maxHealth = 3;
-    public int maxAmmo = 5;
-    public int maxFuel = 4;
+    public static int maxHealth = 3;
+    public static int maxAmmo = 5;
+    public static int maxFuel = 4;
     public static event Action ammoHasIncreased;
-    public PlayerState currentState;
+    public static PlayerState currentState;
+    public static bool canDash = true;
 
     private void Start()
     {
