@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
         change.Normalize();
 
-        if (change != Vector3.zero && PlayerStats.currentState != PlayerState.dash)
+        if (change != Vector3.zero && PlayerStats.Instance.PlayerCurrentState != PlayerStats.PlayerState.dash)
         {
 
             myRigidbody.MovePosition(transform.position + change * speed * Time.deltaTime);

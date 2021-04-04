@@ -18,7 +18,7 @@ public class HealthManager : MonoBehaviour
     {
 
         InitHealth();
-        MaxHP = PlayerStats.maxHealth;
+        MaxHP = PlayerStats.Instance.maxHealth;
         CurrentHP = MaxHP;
         EnemyCollisionHandler.PlayerWasHit += ReduceHealth;
         HealPowerUp.pickedupHeal += IncreaseHealth;

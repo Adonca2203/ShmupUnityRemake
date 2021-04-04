@@ -15,21 +15,21 @@ public class FuelManager : MonoBehaviour
     void Start()
     {
 
-        maxFuel = PlayerStats.maxFuel;
+        maxFuel = PlayerStats.Instance.maxFuel;
         currentFuel = maxFuel;
         fuelBar = GetComponent<Slider>();
         fuelBar.value = 1;
         Dash.hasInputDash += DecreaseFuel;
 
     }
-
+    
     private void DecreaseFuel()
     {
 
         if (currentFuel - 1 <= 0)
         {
 
-            PlayerStats.canDash = false;
+            PlayerStats.Instance.canDash = false;
 
         }
 
@@ -54,7 +54,7 @@ public class FuelManager : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
         IncreaseFuel();
-        PlayerStats.canDash = true;
+        PlayerStats.Instance.canDash = true;
 
     }
 

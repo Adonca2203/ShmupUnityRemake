@@ -11,7 +11,6 @@ public class Dash : MonoBehaviour
     public float dashTime;
     public static event Action hasInputDash;
     [SerializeField] private Rigidbody2D myRigidbody;
-    [SerializeField] private PlayerStats stat;
     private float buttonResetTime = .1f;
     private bool listenForAUp = false;
     private bool listenForDUp = false;
@@ -23,7 +22,6 @@ public class Dash : MonoBehaviour
     {
 
         myRigidbody = GetComponent<Rigidbody2D>();
-        stat = GetComponent<PlayerStats>();
 
     }
 
@@ -31,7 +29,7 @@ public class Dash : MonoBehaviour
     void Update()
     {
 
-        if(PlayerStats.currentState != PlayerState.dash && PlayerStats.canDash)
+        if(PlayerStats.Instance.PlayerCurrentState != PlayerStats.PlayerState.dash && PlayerStats.Instance.canDash)
         {
 
             if (Input.GetKeyDown(KeyCode.A))
@@ -97,7 +95,7 @@ public class Dash : MonoBehaviour
     {
 
         myRigidbody.AddForce(direction * dashSpeed, ForceMode2D.Impulse);
-        stat.ChangeState(PlayerState.dash);
+        PlayerStats.Instance.ChangeState(PlayerStats.PlayerState.dash);
         hasInputDash?.Invoke();
         StartCoroutine(DashCo());
 
@@ -108,7 +106,7 @@ public class Dash : MonoBehaviour
 
         yield return new WaitForSeconds(dashTime);
         myRigidbody.velocity = Vector2.zero;
-        stat.ChangeState(PlayerState.normal);
+        PlayerStats.Instance.ChangeState(PlayerStats.PlayerState.normal);
 
 
     }

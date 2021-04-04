@@ -3,56 +3,140 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerState
+public class PlayerStats : Singleton<PlayerStats>
 {
 
-    normal,
-    dash,
-    hurt
+    private PlayerShoot _ps;
+    public PlayerShoot ps { get { return _ps; } private set { _ps = value; } }
 
-}
+    private int _maxHealth = 3;
+    public int maxHealth { get { return _maxHealth;} private set { _maxHealth = value; } }
+    private int _currentHealth;
+    public int currentHealth { get { return _currentHealth; } private set { _currentHealth = value; } }
 
-public class PlayerStats : MonoBehaviour
-{
+    private int _maxAmmo = 5;
 
-    public static int maxHealth = 3;
-    public static int maxAmmo = 5;
-    public static int maxFuel = 4;
-    public static event Action ammoHasIncreased;
-    public static PlayerState currentState;
-    public static bool canDash = true;
+    public int maxAmmo { get { return _maxAmmo; } private set { _maxAmmo = value; } }
+    private int _currentAmmo;
+    public int currentAmmo { get { return _currentAmmo; } private set { _currentAmmo = value; } }
+
+    private int _maxFuel = 4;
+
+    public int maxFuel { get { return _maxFuel; } private set { _maxFuel = value; } }
+
+    public enum PlayerState
+    {
+
+        normal,
+        dash,
+        hurt
+
+    }
+
+    private PlayerState _playerCurrentState = PlayerState.normal;
+    public PlayerState PlayerCurrentState { get { return _playerCurrentState; } private set { _playerCurrentState = value; } }
+
+    public bool canDash = true;
+    public Events.PlayerHasShot onPlayerShoot;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        ps = FindObjectOfType<PlayerMovement>().gameObject.GetComponent<PlayerShoot>();
+        //LoadStats();
+
+        maxAmmo = 5;
+        currentAmmo = maxAmmo;
+        maxHealth = 3;
+        currentHealth = maxHealth;
+        maxFuel = 4;
+
+    }
 
     private void Start()
     {
 
-        IncreaseMaxAmmo.IncreaseAmmoMax += IncreaseAmmo;
-        currentState = PlayerState.normal;
+        ps.onPlayerShoot.AddListener(DecreaseAmmoCount);
+        DontDestroyOnLoad(this.gameObject);
 
     }
+
+    private void DecreaseAmmoCount()
+    {
+
+        if(currentAmmo > 0)
+        {
+            currentAmmo -= 1;
+            ps.instantiated.GetComponent<ProjectileMovement>().onProjectileDestroyed.AddListener(ReloadBullet);
+            onPlayerShoot?.Invoke();
+        }
+
+    }
+
+    private void ReloadBullet()
+    {
+
+        if(currentAmmo < maxAmmo)
+        {
+            currentAmmo++;
+            onPlayerShoot?.Invoke();
+        }
+
+    }
+
 
     private void IncreaseAmmo()
     {
 
-        if (maxAmmo < 7)
-        {
+        maxAmmo += 1;
 
-            maxAmmo++;
-            ammoHasIncreased?.Invoke();
-
-        }
 
     }
 
     public void ChangeState(PlayerState newState)
     {
 
-        if (currentState != newState)
-        {
+        _playerCurrentState = newState;
 
-            currentState = newState;
+    }
+
+    private void SaveStats()
+    {
+
+        string jsonData = JsonUtility.ToJson(this, true);
+        PlayerPrefs.SetString("Player Stats", jsonData);
+        PlayerPrefs.Save();
+
+    }
+
+    public void LoadStats()
+    {
+
+        if(!PlayerPrefs.HasKey("Player Stats"))
+        { 
+
+            maxAmmo = 5;
+            maxHealth = 3;
+            maxFuel = 4;
+            string jsonData = JsonUtility.ToJson(this, true);
+            PlayerPrefs.SetString("Player Stats", jsonData);
+            PlayerPrefs.Save();
 
         }
 
+        else
+        {
+            
+            JsonUtility.FromJsonOverwrite(PlayerPrefs.GetString("Player Stats"), this);
+
+        }
+
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        SaveStats();
     }
 
 }

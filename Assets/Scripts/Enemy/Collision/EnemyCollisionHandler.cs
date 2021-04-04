@@ -11,6 +11,9 @@ public class EnemyCollisionHandler : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
+        if(other.CompareTag("Ignore"))
+        { return; }
+
         if (other.CompareTag("Player Projectile"))
         {
 

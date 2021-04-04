@@ -7,29 +7,23 @@ using UnityEngine.UI;
 public class AmmoManager : MonoBehaviour
 {
 
-    public Image AmmoSprites;
-    public GameObject[] ammoHolder;
-    public GameObject ammoParent;
+    [SerializeField] private GameObject ammoParent;
+    [SerializeField] private GameObject bulletUI;
+    [SerializeField] private List<GameObject> allBullets = new List<GameObject>();
     public Vector2 parentDefault;
-    public static event Action outOfAmmo;
-    [SerializeField] private int UsableAmmo;
-    [SerializeField] private int MaxAmmo;
+    //public static event Action outOfAmmo;
 
     // Start is called before the first frame update
     void Start()
     { 
 
-        UsableAmmo = PlayerStats.maxAmmo;
-        MaxAmmo = PlayerStats.maxAmmo;
         RectTransform ammoRect = ammoParent.GetComponent<RectTransform>();
 
         parentDefault = ammoRect.localPosition;
 
         InitAmmo();
 
-        PlayerShoot.PlayerHasShot += DecreaseAmmoCount;
-        ProjectileMovement.projectileDestroyed += IncreaseAmmoCount;
-        PlayerStats.ammoHasIncreased += SyncAmmo;
+        PlayerStats.Instance.onPlayerShoot.AddListener(SyncUI);
 
     }
 
@@ -37,63 +31,50 @@ public class AmmoManager : MonoBehaviour
     void InitAmmo()
     {
 
+        DestroyAllUI();
+
         RectTransform ammoRect = ammoParent.GetComponent<RectTransform>();
 
         ammoRect.localPosition = parentDefault;
 
-        for (int i = 0; i < ammoHolder.Length; i++)
+        int offset = 0;
+
+        for (int i = 0; i < PlayerStats.Instance.currentAmmo; i++)
         {
 
-            ammoHolder[i].gameObject.SetActive(false);
+            GameObject obj = Instantiate(bulletUI, ammoParent.transform);
+            RectTransform objTrans = obj.GetComponent<RectTransform>();
+            objTrans.localPosition = new Vector2(obj.transform.position.x + offset + 108, obj.transform.position.y);
+            offset+= 108;
+            allBullets.Add(obj);
 
         }
 
-        for(int i = 0; i < UsableAmmo; i++)
+        for(int i = 0; i < PlayerStats.Instance.currentAmmo; i++)
         {
 
-            ammoHolder[i].gameObject.SetActive(true);
             ammoRect.localPosition = new Vector2(ammoRect.localPosition.x - 108, ammoRect.localPosition.y);
-
 
         }
 
     }
 
-    void DecreaseAmmoCount()
+    void DestroyAllUI()
     {
 
-        UsableAmmo--;
-
-        if(UsableAmmo <= 0)
+        foreach(GameObject bullet in allBullets)
         {
 
-            outOfAmmo?.Invoke();
+            Destroy(bullet);
 
         }
+
+    }
+
+    void SyncUI()
+    {
 
         InitAmmo();
 
     }
-
-    void IncreaseAmmoCount()
-    {
-
-        if (UsableAmmo < MaxAmmo)
-        {
-
-            UsableAmmo++;
-            InitAmmo();
-
-        }
-
-    }
-
-    void SyncAmmo()
-    {
-
-        MaxAmmo = PlayerStats.maxAmmo;
-        IncreaseAmmoCount();
-
-    }
-
 }

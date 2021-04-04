@@ -148,3 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8e4f89f5ae6724eb3cd9adae0b38d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollidersToIgnore:
+  - {fileID: 0}
+  collidersToIgnore: []
