@@ -20,7 +20,7 @@ public class Shield : MonoBehaviour
         trans = defaultColor;
         trans.a = 0;
         defaultColor.a = 1;
-        HealthManager.raiseShield += EnableShield;
+        PlayerStats.Instance.onOverheal.AddListener(EnableShield);
     }
 
     void EnableShield()
@@ -77,6 +77,11 @@ public class Shield : MonoBehaviour
 
         }
 
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
 }

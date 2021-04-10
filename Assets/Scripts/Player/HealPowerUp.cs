@@ -6,15 +6,13 @@ using UnityEngine;
 public class HealPowerUp : ObstacleMovement
 {
 
-    public static event Action pickedupHeal;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
 
         if (other.gameObject.CompareTag("Player"))
         {
 
-            pickedupHeal?.Invoke();
+            PlayerStats.Instance.HealPlayer(1);
             Destroy(this.gameObject);
 
         }

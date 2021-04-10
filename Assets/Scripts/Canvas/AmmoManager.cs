@@ -23,7 +23,7 @@ public class AmmoManager : MonoBehaviour
 
         InitAmmo();
 
-        PlayerStats.Instance.onPlayerShoot.AddListener(SyncUI);
+        PlayerStats.Instance.onAmmoChange.AddListener(SyncUI);
 
     }
 
@@ -37,20 +37,40 @@ public class AmmoManager : MonoBehaviour
 
         ammoRect.localPosition = parentDefault;
 
-        int offset = 0;
+        int xoffset = 0;
+        int yoffset = 0;
+        bool offset = false;
 
         for (int i = 0; i < PlayerStats.Instance.currentAmmo; i++)
         {
 
             GameObject obj = Instantiate(bulletUI, ammoParent.transform);
             RectTransform objTrans = obj.GetComponent<RectTransform>();
-            objTrans.localPosition = new Vector2(obj.transform.position.x + offset + 108, obj.transform.position.y);
-            offset+= 108;
+            objTrans.localPosition = new Vector2(obj.transform.position.x + xoffset + 108, obj.transform.position.y + yoffset);
+
+            if (i % 9 == 0 && i !=0)
+            {
+
+                offset = true;
+                yoffset += 108;
+                allBullets.Add(obj);
+                continue;
+            }
+
+            if (offset)
+            {
+                xoffset -= 108;
+            }
+
+            else
+            {
+                xoffset += 108;
+            }
             allBullets.Add(obj);
 
         }
 
-        for(int i = 0; i < PlayerStats.Instance.currentAmmo; i++)
+        for(int i = 0; i < (PlayerStats.Instance.currentAmmo - 10 > 0? 10: PlayerStats.Instance.currentAmmo); i++)
         {
 
             ammoRect.localPosition = new Vector2(ammoRect.localPosition.x - 108, ammoRect.localPosition.y);

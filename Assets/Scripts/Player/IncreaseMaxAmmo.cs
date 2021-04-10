@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class IncreaseMaxAmmo : ObstacleMovement
 {
-    public static event Action IncreaseAmmoMax;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -13,7 +12,7 @@ public class IncreaseMaxAmmo : ObstacleMovement
         if (other.gameObject.CompareTag("Player"))
         {
 
-            IncreaseAmmoMax?.Invoke();
+            PlayerStats.Instance.IncreaseAmmo(1);
             Destroy(this.gameObject);
 
         }

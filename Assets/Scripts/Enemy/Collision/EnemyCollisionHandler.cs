@@ -6,8 +6,6 @@ using System;
 public class EnemyCollisionHandler : MonoBehaviour
 {
 
-    public static event Action PlayerWasHit;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
 
@@ -26,7 +24,7 @@ public class EnemyCollisionHandler : MonoBehaviour
         {
 
             Destroy(this.gameObject);
-            PlayerWasHit?.Invoke();
+            PlayerStats.Instance.HealPlayer(-1);
 
         }
 

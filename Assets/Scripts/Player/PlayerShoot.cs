@@ -10,7 +10,7 @@ public class PlayerShoot : MonoBehaviour
     private GameObject _instantiated;
     public GameObject instantiated { get { return _instantiated; } private set { _instantiated = value; } }
     [SerializeField] private Vector3 offset;
-    public Events.PlayerHasShot onPlayerShoot;
+    public Events.AmmoChange onPlayerShoot;
 
     // Update is called once per frame
     void Update()

@@ -2,79 +2,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
 
     public Image[] healthSprites;
-    [SerializeField] private int MaxHP;
-    [SerializeField] private int CurrentHP;
     public static event Action playerHasDied;
-    public static event Action raiseShield;
 
     // Start is called before the first frame update
     void Start()
     {
 
         InitHealth();
-        MaxHP = PlayerStats.Instance.maxHealth;
-        CurrentHP = MaxHP;
-        EnemyCollisionHandler.PlayerWasHit += ReduceHealth;
-        HealPowerUp.pickedupHeal += IncreaseHealth;
+        PlayerStats.Instance.onHealthChange.AddListener(InitHealth);
 
     }
 
     void InitHealth()
     {
 
-        for(int i = 0; i < MaxHP; i++)
+        for(int i = 0; i < PlayerStats.Instance.maxHealth; i++)
         {
 
             healthSprites[i].gameObject.SetActive(false);
 
         }
 
-        for(int i = 0; i < CurrentHP; i++)
+        for(int i = 0; i < PlayerStats.Instance.currentHealth; i++)
         {
 
             healthSprites[i].gameObject.SetActive(true);
-
-        }
-
-    }
-
-    void ReduceHealth()
-    {
-
-        CurrentHP--;
-
-        if(CurrentHP <= 0)
-        {
-
-            playerHasDied?.Invoke();
-
-        }
-
-        InitHealth();
-
-    }
-
-    void IncreaseHealth()
-    {
-
-        if(CurrentHP < MaxHP)
-        {
-
-            CurrentHP++;
-            InitHealth();
-
-        }
-
-        else
-        {
-
-            raiseShield?.Invoke();
 
         }
 
